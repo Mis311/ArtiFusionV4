@@ -98,7 +98,7 @@ const Home: NextPage = () => {
               style={{ width: 240 }}
               cover={<img alt="example" src={Background.src} />}
             >
-              We will modify something.
+              We will modify something. SDFSDF
             </Card>
           </Col>
           <Col span={4}>
