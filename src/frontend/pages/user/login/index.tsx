@@ -13,17 +13,19 @@ const Login: NextPage = () => {
   const TypewriterText = useTypewriter(text);
 
   useEffect(() => {
+    // Set the initial text without delay
     setText(dataSet[0].text);
+  
     const timer = setTimeout(() => {
-      setCurrentSet((prevSet) => (prevSet + 1) % dataSet.length);
-      setText(dataSet[(currentSet + 1) % dataSet.length].text);
-    }, 5500); // Change the interval to 2500ms (2.5 seconds)
-
+      setCurrentSet((prevSet) => (prevSet + 1) % (dataSet.length - 1));
+      setText(dataSet[(currentSet + 1) % (dataSet.length - 1) + 1].text);
+    }, 5500);
+  
     return () => {
       clearTimeout(timer);
     };
   }, [currentSet]);
-
+  
   return (
     <>
       {dataSet.map((set, index) => (
