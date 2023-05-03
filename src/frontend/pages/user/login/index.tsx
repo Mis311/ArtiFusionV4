@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react';
-import { NextPage } from 'next';
-import  useTypewriter  from 'react-typewriter-hook';
-import { Form } from 'antd';
+import { KeyOutlined, UserOutlined } from '@ant-design/icons';
 import { ProFormText } from '@ant-design/pro-components';
-import { UserOutlined, KeyOutlined } from '@ant-design/icons';
-import { Card, Col, Row, Button, Space } from 'antd';
+import { Button, Card, Col, Form, Row, Space } from 'antd';
+import { NextPage } from 'next';
 import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import useTypewriter from 'react-typewriter-hook';
 import { dataSet } from './data';
 
 const Login: NextPage = () => {
@@ -17,7 +16,7 @@ const Login: NextPage = () => {
     const timer = setTimeout(() => {
       setCurrentSet((prevSet) => (prevSet + 1) % dataSet.length);
       setText(dataSet[(currentSet + 1) % dataSet.length].text);
-    }, 7000);
+    }, 2500); // Change the interval to 2500ms (2.5 seconds)
 
     return () => {
       clearTimeout(timer);
@@ -26,36 +25,45 @@ const Login: NextPage = () => {
 
   return (
     <>
-      <div>
-        <Image
-          alt="Background"
-          src={dataSet[currentSet].background}
-          quality={100}
-          layout="fill"
-          objectFit="cover"
-          className="fade-in-out"
-        />
-      </div>
+      {dataSet.map((set, index) => (
+        <div
+          key={`bg-${index}`}
+          className={`fade-in-out ${currentSet === index ? 'current' : ''}`}
+        >
+          <Image
+            alt="Background"
+            src={set.background}
+            quality={100}
+            layout="fill"
+            objectFit="cover"
+          />
+        </div>
+      ))}
       <div className="character-container">
-        <Image
-          alt="Character 1"
-          src={dataSet[currentSet].character1}
-          quality={100}
-          width={200}
-          height={200}
-          className="fade-in-out delay-05"
-        />
-        <Image
-          alt="Character 2"
-          src={dataSet[currentSet].character2}
-          quality={100}
-          width={200}
-          height={200}
-          className="fade-in-out delay-2"
-        />
+        {dataSet.map((set, index) => (
+          <div
+            key={`char-${index}`}
+            className={`fade-in-out ${currentSet === index ? 'current' : ''}`}
+          >
+            <Image
+              alt="Character 1"
+              src={set.character1}
+              quality={100}
+              width={200}
+              height={200}
+            />
+            <Image
+              alt="Character 2"
+              src={set.character2}
+              quality={100}
+              width={200}
+              height={200}
+            />
+          </div>
+        ))}
       </div>
       <div className="text-container">
-        <div className="typewriter-text delay-25">{TypewriterText}</div>
+        <div className="typewriter-text delay-25"> {TypewriterText};</div>
       </div>
 
       <Row
@@ -68,7 +76,7 @@ const Login: NextPage = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          zIndex: 1,
+          zIndex: 0,
           width: '100%',
         }}
       >
@@ -77,9 +85,9 @@ const Login: NextPage = () => {
             style={{
               borderRadius: '8px',
               boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-              minWidth: 400, maxWidth: '75vw' 
+              minWidth: 400,
+              maxWidth: '75vw',
             }}
-           
             cover={
               <img
                 alt="Login Cover"
@@ -116,7 +124,15 @@ const Login: NextPage = () => {
                   },
                 ]}
               />
-              <Space wrap style={{ float: 'right' }}>
+              <Space
+                wrap
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  marginTop: '1rem',
+                }}
+              >
                 <Button type="primary">Sign In</Button>
                 <Button block>Sign Up</Button>
               </Space>
@@ -128,95 +144,66 @@ const Login: NextPage = () => {
         .background-container {
           position: fixed;
           top: 0;
-          left: 0;
           right: 0;
           bottom: 0;
-          zIndex: 0;
+          left: 0;
           width: 100%;
           height: 100%;
+          zindex: 0;
+        }
+        .character-container {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          zindex: 1;
+        }
+
+        .fade-in-out {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          opacity: 0;
+          transition: opacity 2.5s;
+          will-change: opacity;
+        }
+
+        .fade-in-out.current {
+          opacity: 1;
+          zindex: 1;
+        }
+
+        .character-container {
+          position: absolute;
+          bottom: 15%;
+          left: 5%;
+          zindex: 1;
+        }
+
+        .text-container {
+          position: absolute;
+          bottom: 20%;
+          left: 50%;
+          color: #ffffff;
+          font-size: 1.5rem;
+          text-align: center;
+          transform: translateX(-50%);
+          zindex: 100;
+        }
+        .typewriter-text {
+          position: absolute;
+          bottom: 20%;
+          left: 50%;
+          color: #000000;
+          font-size: 1.5rem;
+          text-align: center;
+          transform: translateX(-50%);
+          zindex: 100;
         }
       `}</style>
-      
     </>
   );
 };
 export default Login;
-
-{/* // import { NextPage } from 'next';
-// import { ProFormText } from '@ant-design/pro-components';
-// import { UserOutlined, KeyOutlined } from '@ant-design/icons';
-// import { Card, Col, Row, Button, Space } from 'antd';
-// import Image from 'next/image';
-// import Background from '../../../public/assets/img/background.png'
-
-// const Login: NextPage = () => { */
-//   return (
-//     <>
-//     <div>
-//       <Image
-//         alt="Mountains"
-//         src={Background}
-//         quality={100}
-//         fill
-//         sizes="100vw"
-//         style={{
-//           objectFit: 'cover',
-//         }} 
-//       />
-//     </div>
-//       <Row prefixCls='flex' justify="center" align="middle" style={{minHeight: '90vh'}}>
-//         <Col span={4} >
-//           <Card
-//             style={{ minWidth: 400, maxWidth: '75vw' }}
-//             cover={
-//               <img
-//                 alt="Login Cover"
-//                 src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-//               />
-//             }
-//           >
-//             <ProFormText
-//               name="username"
-//               fieldProps={{
-//                 size: 'large',
-//                 prefix: <UserOutlined />,
-//               }}
-//               placeholder={'Username'}
-//               rules={[
-//                 {
-//                   required: true,
-//                   message: (
-//                     'Please input user name'
-//                   ),
-//                 },
-//               ]}
-//             />
-//             <ProFormText.Password
-//               name="password"
-//               fieldProps={{
-//                 size: 'large',
-//                 prefix: <KeyOutlined />,
-//               }}
-//               placeholder={'Password'}
-//               rules={[
-//                 {
-//                   required: true,
-//                   message: (
-//                     'Please input password'
-//                   ),
-//                 },
-//               ]}
-//             />
-//             <Space wrap style={{ float: 'right' }}>
-//               <Button type='primary'>Sign In</Button>
-//               <Button block>Sign Up</Button>
-//             </Space>
-//           </Card>
-//         </Col>
-//       </Row>
-//     </>
-//   )
-// };
-
-// export default Login */   
-}
