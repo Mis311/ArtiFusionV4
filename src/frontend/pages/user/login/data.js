@@ -3,7 +3,7 @@ export const dataSet = [
     background: '/assets/img/background1.png',
     character1: '/assets/img/dog.png',
     character2: '/assets/img/nanny.png',
-    text: 'First there was a word',
+    text: 'First, there was the word.',
   },
   {
     background: '/assets/img/background2.png',
