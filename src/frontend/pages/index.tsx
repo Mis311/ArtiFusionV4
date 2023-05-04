@@ -1,10 +1,30 @@
-import { Breadcrumb, Card, Carousel, Col, Image, Row, theme } from 'antd';
+import { Breadcrumb, Card, Col, Row, theme } from 'antd';
 import { NextPage } from 'next';
 import React, { useState } from 'react';
 // import Image from 'next/image'
-import Background from '../public/assets/img/background.png';
+// import { generateRandomData } from './dummyData';
+
+const generateRandomData = (numCards) => {
+  const data = [];
+
+  for (let i = 0; i < numCards; i++) {
+    data.push({
+      title: `Title ${i + 1}`,
+      author: `Author ${i + 1}`,
+      description: `Description ${i + 1}`,
+      image: '/assets/img/background.png',
+    });
+  }
+
+  return data;
+};
 
 const Home: NextPage = () => {
+  const recommendedData = generateRandomData(6);
+  const newContentData = generateRandomData(5);
+  const musicData = generateRandomData(6);
+  const rankingData = generateRandomData(10);
+  const contestData = generateRandomData(4);
   const [collapsed, setCollapsed] = useState(false);
   const {
     token: { colorBgContainer },
@@ -16,15 +36,137 @@ const Home: NextPage = () => {
     textAlign: 'center',
     background: '#364d79',
   };
+  const customColStyle: React.CSSProperties = {
+    width: '20%',
+    paddingRight: '1%',
+    paddingLeft: '1%',
+  };
 
+  const scrollableStyle: React.CSSProperties = {
+    display: 'flex',
+    overflowX: 'auto',
+    whiteSpace: 'nowrap',
+  };
   return (
     <>
       <Breadcrumb style={{ margin: '16px 0' }}></Breadcrumb>
       <div
         style={{ padding: 24, minHeight: 500, background: colorBgContainer }}
       >
-        <Image.PreviewGroup>
-          <Carousel effect="fade" autoplay>
+        {/* Recommended for You */}
+        <Row>Recommended for You</Row>
+        <Row
+          gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
+          style={{ paddingTop: 20 }}
+        >
+          {recommendedData.map((item, index) => (
+            <Col
+              xs={24}
+              sm={12}
+              md={8}
+              lg={8}
+              key={index}
+              style={customColStyle}
+            >
+              <Card
+                hoverable
+                cover={<img alt="example" src={item.image} />}
+                style={{ height: 400 }}
+              >
+                <h3>{item.title}</h3>
+                <p>{item.author}</p>
+                <p>{item.description}</p>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+           {/* Ranking Content */}
+           <Row style={{ paddingTop: 50 }}>Ranking</Row>
+      <Row style={{ paddingTop: 20 }}>
+        <div style={scrollableStyle}>
+          {rankingData.map((item, index) => (
+            <Col
+              xs={24}
+              sm={12}
+              md={8}
+              lg={4}
+              key={index}
+              style={{ marginRight: 16 }}
+            >
+              <Card hoverable cover={<img alt="example" src={item.image} />}>
+                <h3>
+                  {index + 1}. {item.title}
+                </h3>
+                <p>{item.author}</p>
+                <p>{item.description}</p>
+              </Card>
+            </Col>
+          ))}
+        </div>
+      </Row>
+        {/* Contest / Theme Event */}
+        <Row style={{ paddingTop: 50 }}>Contest / Theme Event</Row>
+        <Row
+          gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
+          style={{ paddingTop: 20 }}
+        >
+          {contestData.map((item, index) => (
+            <Col xs={24} sm={12} md={8} lg={6} key={index}>
+              <Card
+                hoverable
+                cover={<img alt="example" src={item.image} />}
+                style={{ height: 300 }}
+              >
+                <h3>{item.title}</h3>
+                <p>{item.author}</p>
+                <p>{item.description}</p>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+     
+
+        {/* AI-Generated Music */}
+        <Row style={{ paddingTop: 50 }}>AI-Generated Music</Row>
+        <Row
+          gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
+          style={{ paddingTop: 20 }}
+        >
+          {musicData.map((item, index) => (
+            <Col xs={24} sm={12} md={8} lg={4} key={index}>
+              <Card hoverable cover={<img alt="example" src={item.image} />}>
+                <h3>{item.title}</h3>
+                <p>{item.author}</p>
+                <p>{item.description}</p>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+   {/* newContent Content */}
+   <Row style={{ paddingTop: 50 }}>New Content</Row>
+        <Row
+          gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
+          style={{ paddingTop: 20 }}
+        >
+          {newContentData.map((item, index) => (
+            <Col
+              xs={24}
+              sm={12}
+              md={8}
+              lg={4}
+              key={index}
+              style={customColStyle}
+            >
+              <Card hoverable cover={<img alt="example" src={item.image} />}>
+                <h3>{item.title}</h3>
+                <p>{item.author}</p>
+                <p>{item.description}</p>
+              </Card>
+            </Col>
+          ))}
+        </Row>
+        {/* <Image.PreviewGroup> */}
+        {/* <Carousel effect="fade" autoplay>
             <div>
               <div style={contentStyle}>
                 <img
@@ -76,11 +218,11 @@ const Home: NextPage = () => {
                 </div>
               </div>
             </div>
-          </Carousel>
-        </Image.PreviewGroup>
-        <Row style={{ paddingTop: 50 }}>The most popular AI arts here</Row>
-        <Row
-          gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
+          </Carousel> */}
+        {/* </Image.PreviewGroup> */}
+        {/* <Row style={{ paddingTop: 50 }}>The most popular AI arts here</Row> */}
+        {/* <Row */}
+        {/* gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
           style={{ paddingTop: 20 }}
         >
           <Col span={4}>
@@ -128,8 +270,8 @@ const Home: NextPage = () => {
               style={{ width: 240 }}
               cover={<img alt="example" src={Background.src} />}
             ></Card>
-          </Col>
-        </Row>
+          </Col> */}
+        {/* </Row> */}
       </div>
     </>
   );

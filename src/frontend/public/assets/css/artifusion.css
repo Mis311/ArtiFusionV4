@@ -6,3 +6,9 @@ body {
 .artifusion-nav {
     box-shadow: 0 4px 8px 0 rgba(97, 97, 97, 0.05), 0 6px 20px 0 rgba(120, 120, 120, 0.05);
 }
+
+/* Disable collapsing behavior of the horizontal menu */
+.ant-menu-horizontal {
+    overflow: visible !important;
+    white-space: nowrap;
+  }
