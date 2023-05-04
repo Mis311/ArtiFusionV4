@@ -1,8 +1,10 @@
 import { Breadcrumb, Card, Col, Row, theme } from 'antd';
 import { NextPage } from 'next';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+
 // import Image from 'next/image'
 // import { generateRandomData } from './dummyData';
+
 
 const generateRandomData = (numCards) => {
   const data = [];
@@ -29,6 +31,29 @@ const Home: NextPage = () => {
   const {
     token: { colorBgContainer },
   } = theme.useToken();
+  const [scrollPosition, setScrollPosition] = useState(0);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const scrollContent = (direction: 'left' | 'right') => {
+    if (!scrollContainerRef.current) return;
+
+    const scrollAmount = 200;
+    const currentScrollPosition = scrollContainerRef.current.scrollLeft;
+
+    if (direction === 'left') {
+      scrollContainerRef.current.scrollTo({
+        left: currentScrollPosition - scrollAmount,
+        behavior: 'smooth',
+      });
+      setScrollPosition(currentScrollPosition - scrollAmount);
+    } else {
+      scrollContainerRef.current.scrollTo({
+        left: currentScrollPosition + scrollAmount,
+        behavior: 'smooth',
+      });
+      setScrollPosition(currentScrollPosition + scrollAmount);
+    }
+  };
 
   const contentStyle: React.CSSProperties = {
     color: '#fff',
@@ -44,8 +69,9 @@ const Home: NextPage = () => {
 
   const scrollableStyle: React.CSSProperties = {
     display: 'flex',
-    overflowX: 'auto',
+    overflowX: 'scroll',
     whiteSpace: 'nowrap',
+
   };
   return (
     <>
@@ -80,10 +106,25 @@ const Home: NextPage = () => {
             </Col>
           ))}
         </Row>
-           {/* Ranking Content */}
-           <Row style={{ paddingTop: 50 }}>Ranking</Row>
-      <Row style={{ paddingTop: 20 }}>
-        <div style={scrollableStyle}>
+              {/* Ranking Content */}
+      <Row style={{ paddingTop: 50 }}>Ranking</Row>
+      <Row style={{ paddingTop: 20, position: 'relative' }}>
+        <button
+          onClick={() => scrollContent('left')}
+          style={{
+            position: 'absolute',
+            left: 0,
+            top: '50%',
+            zIndex: 10,
+            display: scrollPosition > 0 ? 'block' : 'none',
+          }}
+        >
+          {'<'}
+        </button>
+        <div
+          ref={scrollContainerRef}
+          style={{ ...scrollableStyle, paddingLeft: 24, paddingRight: 24 }}
+        >
           {rankingData.map((item, index) => (
             <Col
               xs={24}
@@ -103,6 +144,17 @@ const Home: NextPage = () => {
             </Col>
           ))}
         </div>
+        <button
+          onClick={() => scrollContent('right')}
+          style={{
+            position: 'absolute',
+            right: 0,
+            top: '50%',
+            zIndex: 10,
+          }}
+        >
+          {'>'}
+        </button>
       </Row>
         {/* Contest / Theme Event */}
         <Row style={{ paddingTop: 50 }}>Contest / Theme Event</Row>
