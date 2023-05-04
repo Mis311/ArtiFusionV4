@@ -37,34 +37,12 @@ const Login: NextPage = () => {
             alt="Background"
             src={set.background}
             quality={100}
-            layout="fill"
+            fill
             objectFit="cover"
           />
         </div>
       ))}
-      <div className="character-container">
-        {dataSet.map((set, index) => (
-          <div
-            key={`char-${index}`}
-            className={`fade-in-out ${currentSet === index ? 'current' : ''}`}
-          >
-            <Image
-              alt="Character 1"
-              src={set.character1}
-              quality={100}
-              width={200}
-              height={200}
-            />
-            <Image
-              alt="Character 2"
-              src={set.character2}
-              quality={100}
-              width={200}
-              height={200}
-            />
-          </div>
-        ))}
-      </div>
+      
       <div className="text-container">
         <div className="typewriter-text delay-5"> {TypewriterText};</div>
       </div>
