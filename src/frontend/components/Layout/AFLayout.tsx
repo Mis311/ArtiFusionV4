@@ -77,7 +77,7 @@ const AFLayout: React.FC<any> = ({ children }) => {
   } = theme.useToken();
   const router = useRouter();
   const useAFLayout =
-    router.pathname !== '/404' && router.pathname.indexOf('/user') < 0;
+  router.pathname !== '/404' && !(router.pathname.startsWith('/user') && !router.pathname.startsWith('/user/profile'));
 
   return useAFLayout ? (
     <Layout style={{ minHeight: '100vh' }}>
