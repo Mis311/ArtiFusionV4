@@ -1,7 +1,7 @@
 import { Breadcrumb, Card, Col, Row, theme } from 'antd';
 import { NextPage } from 'next';
 import React, { useRef, useState } from 'react';
-
+import Link from 'next/link';
 // import Image from 'next/image'
 // import { generateRandomData } from './dummyData';
 
@@ -10,6 +10,7 @@ const generateRandomData = (numCards) => {
 
   for (let i = 0; i < numCards; i++) {
     data.push({
+      id: i + 1,  // Add this line
       title: `Title ${i + 1}`,
       author: `Author ${i + 1}`,
       description: `Description ${i + 1}`,
@@ -19,6 +20,7 @@ const generateRandomData = (numCards) => {
 
   return data;
 };
+
 
 const Home: NextPage = () => {
   const recommendedData = generateRandomData(6);
@@ -83,26 +85,31 @@ const Home: NextPage = () => {
           gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
           style={{ paddingTop: 20 }}
         >
-          {recommendedData.map((item, index) => (
-            <Col
-              xs={24}
-              sm={12}
-              md={8}
-              lg={8}
-              key={index}
-              style={customColStyle}
-            >
-              <Card
-                hoverable
-                cover={<img alt="example" src={item.image} />}
-                style={{ height: 400 }}
-              >
-                <h3>{item.title}</h3>
-                <p>{item.author}</p>
-                <p>{item.description}</p>
-              </Card>
-            </Col>
-          ))}
+        {recommendedData.map((item, index) => (
+  <Col
+    xs={24}
+    sm={12}
+    md={8}
+    lg={8}
+    key={index}
+    style={customColStyle}
+  >
+    <Link href={`/content/${item.id}`}>
+    
+        <Card
+          hoverable
+          cover={<img alt="example" src={item.image} />}
+          style={{ height: 400 }}
+        >
+          <h3>{item.title}</h3>
+          <p>{item.author}</p>
+          <p>{item.description}</p>
+        </Card>
+      
+    </Link>
+  </Col>
+))}
+
         </Row>
         {/* Ranking Content */}
         <Row style={{ paddingTop: 50 }}>Ranking</Row>
@@ -133,6 +140,7 @@ const Home: NextPage = () => {
                 key={index}
                 style={{ marginRight: 16 }}
               >
+                  <Link href={`/content/${item.id}`}>
                 <Card hoverable cover={<img alt="example" src={item.image} />}>
                   <h3>
                     {index + 1}. {item.title}
@@ -140,6 +148,7 @@ const Home: NextPage = () => {
                   <p>{item.author}</p>
                   <p>{item.description}</p>
                 </Card>
+                </Link>
               </Col>
             ))}
           </div>
@@ -163,6 +172,7 @@ const Home: NextPage = () => {
         >
           {contestData.map((item, index) => (
             <Col xs={24} sm={12} md={8} lg={6} key={index}>
+               <Link href={`/content/${item.id}`}>
               <Card
                 hoverable
                 cover={<img alt="example" src={item.image} />}
@@ -172,6 +182,7 @@ const Home: NextPage = () => {
                 <p>{item.author}</p>
                 <p>{item.description}</p>
               </Card>
+              </Link>
             </Col>
           ))}
         </Row>
@@ -184,11 +195,13 @@ const Home: NextPage = () => {
         >
           {musicData.map((item, index) => (
             <Col xs={24} sm={12} md={8} lg={4} key={index}>
+               <Link href={`/content/${item.id}`}>
               <Card hoverable cover={<img alt="example" src={item.image} />}>
                 <h3>{item.title}</h3>
                 <p>{item.author}</p>
                 <p>{item.description}</p>
               </Card>
+              </Link>
             </Col>
           ))}
         </Row>
@@ -207,11 +220,13 @@ const Home: NextPage = () => {
               key={index}
               style={customColStyle}
             >
+              <Link href={`/content/${item.id}`}>
               <Card hoverable cover={<img alt="example" src={item.image} />}>
                 <h3>{item.title}</h3>
                 <p>{item.author}</p>
                 <p>{item.description}</p>
               </Card>
+              </Link>
             </Col>
           ))}
         </Row>

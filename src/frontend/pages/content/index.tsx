@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
-import { Card } from 'antd';
+import React from 'react';
+import { Card, Col, Row } from 'antd';
 
 // This data will be fetched from API in a real app
 const data = [
@@ -15,33 +15,31 @@ const data = [
   // ... more data
 ];
 
-
-const ContentDetailPage: NextPage = () => {
+const ContentListPage: NextPage = () => {
   const router = useRouter();
-  const { id } = router.query;
-  const [content, setContent] = useState(null);
 
-  useEffect(() => {
-    if (id) {
-      const fetchedContent = data.find((item) => item.id === Number(id));
-      setContent(fetchedContent);
-    }
-  }, [id]);
-  
-
-  if (!content) return <div>{id ? 'Content not found' : 'Loading...'}</div>;
-
+  const viewContentDetail = (id: number) => {
+    router.push(`/content/${id}`);
+  };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <Card
-        hoverable
-        cover={<img alt={content.title} src={content.image} style={{ maxWidth: '100%', maxHeight: '80vh', objectFit: 'contain' }} />}
-      >
-        <Card.Meta title={content.title} description={content.description} />
-      </Card>
+    <div>
+      <h1>Content List</h1>
+      <Row gutter={16}>
+        {data.map((item) => (
+          <Col span={8} key={item.id}>
+            <Card
+              hoverable
+              cover={<img alt={item.title} src={item.image} />}
+              onClick={() => viewContentDetail(item.id)}
+            >
+              <Card.Meta title={item.title} description={item.description} />
+            </Card>
+          </Col>
+        ))}
+      </Row>
     </div>
   );
 };
 
-export default ContentDetailPage;
+export default ContentListPage;
