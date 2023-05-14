@@ -1,6 +1,6 @@
 import {
   BookOutlined,
-  DesktopOutlined,
+  // DesktopOutlined,
   DownOutlined,
   HomeOutlined,
   TeamOutlined,
@@ -22,10 +22,10 @@ type MenuItem = Required<MenuProps>['items'][number];
 const postMenu = (
   <Menu>
     <Menu.Item key="post:1">
-      <Link href="/post/art">Post Art</Link>
+      <Link href="/submit">Post Art</Link>
     </Menu.Item>
     <Menu.Item key="post:2">
-      <Link href="/post/novel">Post Novel</Link>
+      <Link href="/submit">Post Novel</Link>
     </Menu.Item>
   </Menu>
 );
@@ -56,7 +56,7 @@ function getItem(
 
 const items: MenuItem[] = [
   getItem(<Link href={'/'}>Home</Link>, '1', <HomeOutlined />),
-  getItem(<Link href={'/desktop'}>Desktop</Link>, '2', <DesktopOutlined />),
+  // getItem(<Link href={'/desktop'}>Desktop</Link>, '2', <DesktopOutlined />),
   getItem('View', 'sub1', <BookOutlined />, [
     getItem('Art', '3'),
     getItem('Novel', '4'),
