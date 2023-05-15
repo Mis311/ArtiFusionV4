@@ -65,11 +65,21 @@ const Login: NextPage = () => {
             style={{
               borderRadius: '8px',
               maxWidth: '75vw',
+          
+              
             }}
             cover={
               <img
                 alt="Login Cover"
-                src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                src="/assets/img/logo_light.png"
+                style={{ 
+                  width: '80%', 
+                  height: 'auto', 
+                  objectFit: 'contain', 
+                  paddingLeft : '30px',
+                  justifyContent: 'center', 
+                
+           }}
               />
             }
           >
