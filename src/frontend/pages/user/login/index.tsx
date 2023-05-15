@@ -13,16 +13,15 @@ const Login: NextPage = () => {
   const TypewriterText = useTypewriter(text);
 
   useEffect(() => {
-    // Set the initial text without delay
     setText(dataSet[0].text);
   
-    const timer = setTimeout(() => {
-      setCurrentSet((prevSet) => (prevSet + 1) % (dataSet.length - 1));
-      setText(dataSet[(currentSet + 1) % (dataSet.length - 1) + 1].text);
+    const timer = setInterval(() => {
+      setCurrentSet((prevSet) => (prevSet + 1) % dataSet.length);
+      setText(dataSet[currentSet].text);
     }, 5500);
   
     return () => {
-      clearTimeout(timer);
+      clearInterval(timer);
     };
   }, [currentSet]);
   
@@ -37,21 +36,20 @@ const Login: NextPage = () => {
             alt="Background"
             src={set.background}
             quality={100}
-            fill
+            layout="fill"
             objectFit="cover"
           />
         </div>
       ))}
       
       <div className="text-container">
-        <div className="typewriter-text delay-5"> {TypewriterText};</div>
+        <div className="typewriter-text delay-5"> {TypewriterText}</div>
       </div>
 
       <Row
         justify="center"
         align="middle"
         style={{
-          maxHeight: '100vh',
           position: 'absolute',
           top: 0,
           left: 0,
@@ -59,14 +57,13 @@ const Login: NextPage = () => {
           bottom: 0,
           zIndex: 0,
           width: '100%',
+          height: '100vh',
         }}
       >
         <Col xs={24} sm={16} md={12} lg={8} xl={6}>
           <Card
             style={{
               borderRadius: '8px',
-              boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)',
-
               maxWidth: '75vw',
             }}
             cover={
@@ -122,24 +119,6 @@ const Login: NextPage = () => {
         </Col>
       </Row>
       <style jsx>{`
-        .background-container {
-          position: fixed;
-          top: 0;
-          right: 0;
-          bottom: 0;
-          left: 0;
-          z-index: 0;
-          width: 100%;
-          height: 100%;
-        }
-        .character-container {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          z-index: 1;
-          transform: translate(-50%, -50%);
-        }
-
         .fade-in-out {
           position: absolute;
           top: 0;
@@ -154,13 +133,6 @@ const Login: NextPage = () => {
         .fade-in-out.current {
           z-index: 0;
           opacity: 1;
-        }
-
-        .character-container {
-          position: absolute;
-          bottom: 15%;
-          left: 5%;
-          z-index: 1;
         }
 
         .text-container {

@@ -8,7 +8,17 @@ import {
   UserAddOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { Button, Card, Divider, List, Space, Typography } from 'antd';
+import {
+  Button,
+  Card,
+  Col,
+  Divider,
+  List,
+  Row,
+  Space,
+  Tag,
+  Typography,
+} from 'antd';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -21,6 +31,8 @@ const data = [
     author: 'Author 1',
     description: 'Description 1',
     image: '/assets/img/background.png',
+    tags: ['art', 'painting', 'abstract'],
+    postedDate: '2023-01-01',
   },
   // ... more data
 ];
@@ -40,36 +52,70 @@ const ContentDetailPage: NextPage = () => {
   if (!content) return <div>Loading...</div>;
 
   return (
-    <div>
+    <div style={{ padding: '20px' }}>
       <h1>{content.title}</h1>
-      <Card hoverable cover={<img alt={content.title} src={content.image} />}>
-        <Card.Meta title={content.title} description={content.description} />
+      <Card
+        hoverable
+        style={{ marginBottom: '20px' }}
+        cover={<img alt={content.title} src={content.image} />}
+      >
+        <Row justify="space-between" align="middle">
+          <Col>
+            <Card.Meta
+              title={content.title}
+              description={content.description}
+            />
+          </Col>
+          <Col>
+            <Space size="middle">
+              <Typography.Text>
+                <EyeOutlined /> 123
+              </Typography.Text>
+              <Typography.Text>
+                <BookOutlined /> 5 Bookmarks
+              </Typography.Text>
+              <Button type="primary" icon={<LikeOutlined />}>
+                Like
+              </Button>
+              <Button icon={<ShareAltOutlined />}>Share</Button>
+              <Button icon={<MessageOutlined />}>Comment</Button>
+            </Space>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Space
+              size="middle"
+              style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                marginTop: '20px',
+              }}
+            >
+              <Typography.Text>
+                <UserOutlined /> {content.author}
+              </Typography.Text>
+
+              <Space size="middle">
+                <Button icon={<UserAddOutlined />}>Follow</Button>
+                <Button icon={<FileAddOutlined />}>Request</Button>
+              </Space>
+            </Space>
+          </Col>
+        </Row>
+        <Typography.Text style={{ display: 'block', marginTop: '20px' }}>
+          Posted on: {content.postedDate}
+        </Typography.Text>
         <Divider />
-        <Space size="middle">
-          <Typography.Text>
-            <UserOutlined /> {content.author}
-          </Typography.Text>
-          <Typography.Text>
-            <EyeOutlined /> 123
-          </Typography.Text>
-          <Typography.Text>
-            <BookOutlined /> 5 Bookmarks
-          </Typography.Text>
-        </Space>
+        <Typography.Text>Tags:</Typography.Text>
+        {content.tags.map((tag, index) => (
+          <Tag key={index} color="blue" style={{ marginTop: '10px' }}>
+            {tag}
+          </Tag>
+        ))}
         <Divider />
-        <Space size="middle">
-          <Button type="primary" icon={<LikeOutlined />}>
-            Like
-          </Button>
-          <Button icon={<ShareAltOutlined />}>Share</Button>
-          <Button icon={<MessageOutlined />}>Comment</Button>
-        </Space>
-        <Divider />
-        <Space size="middle">
-          <Button icon={<UserAddOutlined />}>Follow</Button>
-          <Button icon={<FileAddOutlined />}>Request</Button>
-        </Space>
       </Card>
+
       <Divider>Author's Past Works</Divider>
       <List
         itemLayout="horizontal"
