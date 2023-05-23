@@ -1,12 +1,14 @@
 import { Form, Input, Button, Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 const { TextArea } = Input;
 const { Dragger } = Upload;
 
-const GraphicNovelForm = () => {
+const UploadForm = () => {
   const [form] = Form.useForm();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   const handleFinish = async (values) => {
@@ -19,6 +21,9 @@ const GraphicNovelForm = () => {
     message.success('Your graphic novel has been submitted!');
     form.resetFields();
     setLoading(false);
+
+    // You can also redirect the user to another page if needed
+    // router.push('/somePage');
   };
 
   const props = {
@@ -42,7 +47,7 @@ const GraphicNovelForm = () => {
     <Form form={form} onFinish={handleFinish}>
       <Form.Item
         name="title"
-        rules={[{ required: true, message: 'Please input the title of your graphic novel!' }]}
+        rules={[{ required: true, message: 'Please input the title of your novel!' }]}
       >
         <Input placeholder="Title" />
       </Form.Item>
@@ -62,29 +67,26 @@ const GraphicNovelForm = () => {
       </Form.Item>
 
       <Form.Item
-        name="textContent"
-        rules={[{ required: true, message: 'Please input the text content of your graphic novel!' }]}
+        name="story"
+        rules={[{ required: true, message: 'Please write your story!' }]}
       >
-        <TextArea placeholder="Text content" />
+        <TextArea placeholder="Story" />
       </Form.Item>
 
       <Form.Item
-        name="illustrationRequests"
-      >
-        <TextArea placeholder="Describe where and what type of illustrations you want" />
-      </Form.Item>
-
-      <Form.Item
-        name="files"
+        name="images"
         valuePropName="fileList"
         getValueFromEvent={normFile}
-        rules={[{ required: true, message: 'Please upload your files!' }]}
+        rules={[{ required: true, message: 'Please upload your images!' }]}
       >
         <Dragger {...props}>
           <p className="ant-upload-drag-icon">
             <InboxOutlined />
           </p>
           <p className="ant-upload-text">Click or drag file to this area to upload</p>
+          <p className="ant-upload-hint">
+            Use [pic1], [pic2], etc. in your story to place these images. Use #b before a picture tag to set it as a background.
+          </p>
         </Dragger>
       </Form.Item>
 
@@ -100,9 +102,10 @@ const GraphicNovelForm = () => {
 function normFile(e) {
   console.log('Upload event:', e);
   if (Array.isArray(e)) {
+   
     return e;
-}
-return e && e.fileList;
+  }
+  return e && e.fileList;
 }
 
-export default GraphicNovelForm;
+export default UploadForm;
